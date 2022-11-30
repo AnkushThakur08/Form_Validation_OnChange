@@ -9,9 +9,10 @@ const App = () => {
   const [values, setValues] = useState({
     minValue: '',
     maxValue: '',
+    tryData: '',
   });
 
-  const { minValue, maxValue } = values;
+  const { minValue, maxValue, tryData } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -48,7 +49,8 @@ const App = () => {
     // }
 
     if (event.target.value) {
-      const validation = new RegExp('[+-]?([0-9]*[.])?[0-9]+');
+      // const validation = new RegExp('[+-]?([0-9]*[.])?[0-9]+');
+      const validation = event.target.value.replace(/[^\d]/g, '');
 
       const textCase = validation.test(event.target.value);
 
@@ -64,13 +66,16 @@ const App = () => {
       }
 
       if (event.target.value <= 99) {
-        console.log('HERE');
         temp1 = Math.round(event.target.value).toFixed(2);
         console.log(temp1);
       } else {
+        console.log('HERE');
+
         temp2 =
           event.target.value / Math.pow(10, event.target.value.length - 2);
         console.log(temp2);
+
+        setValues({ ...values });
       }
     }
   };
@@ -129,9 +134,11 @@ const App = () => {
           <label className="text-light">Max Price</label>
           <input
             onChange={handleChange('maxValue')}
-            value={maxValue}
+            // value={maxValue}
+            value={temp2 || maxValue}
             className="form-control"
             type="text"
+            id="textField"
           />
 
           <p>{temp1}</p>
